@@ -4,7 +4,7 @@ Ce projet permet de déployer **Nextcloud** dans une VM sur **Proxmox**, avec un
 
 ## Prérequis
 
-- ***Proxmox VE*** installé et configuré.
+- ***Proxmox VE*** installé et configuré (un serveur Proxmox installé et accessible).
 - ***Docker*** et ***Docker Compose*** sur la VM cible.
 - ***Traefik*** pour la gestion du HTTPS (certificats Let's Encrypt).
 - ***MinIO*** pour le stockage des fichiers ***Nextcloud*** (peut être local ou distant).
@@ -126,6 +126,27 @@ ansible-playbook backup_vm_proxmox.yml -i inventory.ini
     - *ANSIBLE_USER=*	Utilisateur SSH pour Ansible 
     - *ANSIBLE_PASSWORD=*	Mot de passe SSH pour Ansible
 
+- ***⚠️ Attention:***  
+
+    pour avoir le ***Token API Proxmox***, tu dois te connecter  a ton serveur Proxmox et suivre les etapes suivants:
+    - Va dans **Datacenter** > **API Tokens**.
+    - Clique sur "**Add**".
+    - Sélectionne l’utilisateur (**ansible_user**).
+
+        Remplis les champs:
+        - **Token ID**: ansible-token.
+        - **Permissions**: **PVEAdmin** (Attention, accès complet).
+    - Coche "**Privileged**" (pour un accès total).
+
+    - Clique sur "**Add**".
+    - Copie immédiatement le Token généré, il ressemble à ceci (Tu ne pourras plus le voir après):
+
+    ```bash
+    ansible_user!ansible-token=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    ```
+
+## Notes: 
+En suivant bien les étapes décrites, tu devrais obtenir une ***pipeline CI/CD*** fonctionnelle ainsi qu'une ***architecture opérationnelle***.
 
 ## Conclusion
 
