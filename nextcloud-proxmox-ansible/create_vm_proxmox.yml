@@ -1,0 +1,24 @@
+- name: Créer une VM sur Proxmox
+  hosts: proxmox
+  gather_facts: no
+  tasks:
+    - name: Créer la VM Nextcloud
+      community.general.proxmox_kvm:
+        api_host: "192.168.1.100"
+        api_user: "root@pam"
+        api_password: "monpassword"
+        api_token_id: "ansible-token"
+        api_token_secret: "{{ proxmox_api_token }}"
+        node: "pve"
+        vmid: 100
+        name: "nextcloud-vm"
+        memory: 4096
+        cores: 2
+        state: present
+        storage: "local-lvm"
+        disk: 20G
+        net:
+          - model: virtio
+            bridge: vmbr0
+        os_type: "cloud-init"
+        iso: "local:iso/ubuntu-22.04.iso"
