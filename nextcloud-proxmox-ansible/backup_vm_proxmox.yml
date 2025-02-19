@@ -1,0 +1,12 @@
+- name: Sauvegarder la VM Nextcloud
+  hosts: proxmox
+  tasks:
+    - name: Lancer un backup de la VM
+      community.general.proxmox_backup:
+        api_host: "192.168.1.100"
+        api_user: "root@pam"
+        api_password: "monpassword"
+        node: "pve"
+        vmid: 100
+        storage: "local"
+        mode: "snapshot"
