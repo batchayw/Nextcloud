@@ -1,0 +1,3 @@
+proxmox_api_host: "192.168.1.100"
+proxmox_api_user: "root@pam"
+proxmox_api_password: "monpassword"
