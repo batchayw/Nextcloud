@@ -16,6 +16,8 @@ Ce projet permet de déployer **Nextcloud** dans une VM sur **Proxmox**, avec un
 ## Structure du projet
 
 ```bash
+README.md                    # Documentation du projet
+LICENSE                      # License du projet (Auteur William)
 nextcloud-proxmox-ansible/
 │── inventory.ini            # Inventaire Ansible (Proxmox + VM Nextcloud)
 │── ansible.cfg              # Configuration Ansible
@@ -32,8 +34,10 @@ nextcloud-proxmox-ansible/
 │   ├── docker-compose.yml   # Fichier Docker Compose pour Nextcloud
 │   ├── ssh-key.pub          # Clé SSH pour accès sécurisé
 │── logs/                    # Logs des exécutions Ansible
-│── tests/                   # Fichiers à copier sur les machines
+│── tests/                   
 │   ├── check_nextcloud.py   # Vérifier que Nextcloud est bien accessible
+│── img/                   
+│   ├── check_nextcloud.py   # Code xml du diagramme fonctionnel à visualiser sur Draw.io
 │── .github/                   
 │   ├── workflows 
 │   │   ├── main.yml         # Pipeline GitHub Actions
