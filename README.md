@@ -146,7 +146,8 @@ ansible-playbook backup_vm_proxmox.yml -i inventory.ini
     ```
 
 ## Notes: 
-En suivant bien les étapes décrites, tu devrais obtenir une ***pipeline CI/CD*** fonctionnelle ainsi qu'une ***architecture opérationnelle***.
+- En suivant bien les étapes décrites, tu devrais obtenir une ***pipeline CI/CD*** fonctionnelle ainsi qu'une ***architecture opérationnelle***.
+- Pour visualiser l'architecture, impoter le fichier `img/draw.xml` dans l'outil draw.io.
 
 ## Conclusion
 
