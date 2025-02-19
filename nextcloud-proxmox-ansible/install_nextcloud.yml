@@ -1,0 +1,31 @@
+- name: Installer Nextcloud sur la VM
+  hosts: nextcloud
+  become: yes
+  tasks:
+    - name: Installer Docker et Docker Compose
+      apt:
+        name: ["docker.io", "docker-compose"]
+        state: present
+        update_cache: yes
+
+    - name: Copier le fichier Docker Compose
+      copy:
+        src: files/docker-compose.yml
+        dest: /home/ubuntu/docker-compose.yml
+        owner: ubuntu
+        group: ubuntu
+        mode: '0644'
+
+    - name: Démarrer Nextcloud avec Docker Compose
+      command: docker-compose -f /home/ubuntu/docker-compose.yml up -d
+      args:
+        chdir: /home/ubuntu/
+    
+  environment:
+      NEXTCLOUD_OBJECTSTORE_S3_HOST: "minio:9000"           # Adresse de MinIO
+      NEXTCLOUD_OBJECTSTORE_S3_BUCKET: "nextcloud-bucket"      # Nom du bucket
+      NEXTCLOUD_OBJECTSTORE_S3_KEY: "adminaccess"               # Utilisateur MinIO (a changer par le votre)
+      NEXTCLOUD_OBJECTSTORE_S3_SECRET: "secretpassword"         # Mot de passe MinIO (a changer par le votre)
+      NEXTCLOUD_OBJECTSTORE_S3_REGION: "us-east-1"
+      NEXTCLOUD_OBJECTSTORE_S3_USEPATHSTYLE: "true"
+
