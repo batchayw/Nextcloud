@@ -1,0 +1,77 @@
+name: Deploy Nextcloud
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  lint-ansible:
+    name: 🔍 Lint Ansible
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Install Ansible
+        run: sudo apt update && sudo apt install -y ansible ansible-lint
+      
+      - name: Run ansible-lint
+        run: ansible-lint create_vm_proxmox.yml install_nextcloud.yml
+
+  deploy-vm:
+    name: 🚀 Déployer VM Proxmox
+    runs-on: ubuntu-latest
+    needs: lint-ansible
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: sudo apt update && sudo apt install -y ansible sshpass
+
+      - name: Deploy VM on Proxmox
+        env:
+          ANSIBLE_HOST_KEY_CHECKING: "False"
+          PROXMOX_API_TOKEN: ${{ secrets.PROXMOX_API_TOKEN }}
+        run: ansible-playbook -i inventory.ini create_vm_proxmox.yml
+
+  deploy-app:
+    name: 📦 Déployer Nextcloud
+    runs-on: ubuntu-latest
+    needs: deploy-vm
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: sudo apt update && sudo apt install -y ansible sshpass
+
+      - name: Deploy Nextcloud
+        env:
+          ANSIBLE_HOST_KEY_CHECKING: "False"
+        run: ansible-playbook -i inventory.ini install_nextcloud.yml
+
+  test-app:
+    name: ✅ Vérification Nextcloud
+    runs-on: ubuntu-latest
+    needs: deploy-app
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Python dependencies
+        run: pip install requests
+
+      - name: Check if Nextcloud is running
+        run: python tests/check_nextcloud.py
+
+  notify:
+    name: 📢 Notification
+    runs-on: ubuntu-latest
+    needs: test-app
+    steps:
+      - name: Send Slack Notification
+        run: |
+          curl -X POST -H 'Content-type: application/json' --data '{"text":"🚀 Déploiement Nextcloud terminé avec succès !"}' ${{ secrets.SLACK_WEBHOOK_URL }}
