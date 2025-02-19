@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxGraphModel dx="1202" dy="721" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1000" pageHeight="800" math="0" shadow="0">
+  <root>
+    <mxCell id="0"/>
+    <mxCell id="1" parent="0"/>
+    <!-- GitHub Actions CI/CD -->
+    <mxCell id="node1" value="GitHub Actions CI/CD" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#9966FF;strokeColor=#000000;fontSize=12;" vertex="1" parent="1">
+      <mxGeometry x="300" y="20" width="200" height="60" as="geometry"/>
+    </mxCell>
+    <!-- Ansible Playbooks -->
+    <mxCell id="node2" value="Ansible Playbooks" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFCC66;strokeColor=#000000;fontSize=12;" vertex="1" parent="1">
+      <mxGeometry x="300" y="100" width="200" height="60" as="geometry"/>
+    </mxCell>
+    <!-- Proxmox Server -->
+    <mxCell id="node3" value="Proxmox Server" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFCC00;strokeColor=#000000;fontSize=12;" vertex="1" parent="1">
+      <mxGeometry x="50" y="220" width="150" height="60" as="geometry"/>
+    </mxCell>
+    <!-- VM Nextcloud Container -->
+    <mxCell id="node4" value="VM Nextcloud" style="swimlane;rounded=1;whiteSpace=wrap;html=1;fillColor=#00CCFF;strokeColor=#000000;fontSize=12;" vertex="1" parent="1">
+      <mxGeometry x="300" y="220" width="220" height="180" as="geometry"/>
+    </mxCell>
+    <!-- Slack Notifications -->
+    <mxCell id="node5" value="Slack Notifications" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FF6699;strokeColor=#000000;fontSize=12;" vertex="1" parent="1">
+      <mxGeometry x="600" y="220" width="200" height="60" as="geometry"/>
+    </mxCell>
+    <!-- Nextcloud inside VM -->
+    <mxCell id="node4a" value="Nextcloud" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontSize=10;" vertex="1" parent="node4">
+      <mxGeometry x="20" y="20" width="180" height="40" as="geometry"/>
+    </mxCell>
+    <!-- Traefik inside VM -->
+    <mxCell id="node4b" value="Traefik" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FF6600;strokeColor=#000000;fontSize=10;" vertex="1" parent="node4">
+      <mxGeometry x="20" y="70" width="180" height="40" as="geometry"/>
+    </mxCell>
+    <!-- MinIO inside VM -->
+    <mxCell id="node4c" value="MinIO" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#00FF99;strokeColor=#000000;fontSize=10;" vertex="1" parent="node4">
+      <mxGeometry x="20" y="120" width="180" height="40" as="geometry"/>
+    </mxCell>
+    <!-- Edges -->
+    <!-- GitHub Actions to Ansible -->
+    <mxCell id="edge1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=1;strokeColor=#000000;" edge="1" parent="1" source="node1" target="node2">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <!-- Ansible to Proxmox (create_vm_proxmox.yml & backup_vm_proxmox.yml) -->
+    <mxCell id="edge2" value="create_vm_proxmox.yml / backup_vm_proxmox.yml" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=1;strokeColor=#000000;fontSize=10;" edge="1" parent="1" source="node2" target="node3">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <!-- Ansible to VM Nextcloud (install_nextcloud.yml) -->
+    <mxCell id="edge3" value="install_nextcloud.yml" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=1;strokeColor=#000000;fontSize=10;" edge="1" parent="1" source="node2" target="node4">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <!-- Proxmox hosts VM Nextcloud -->
+    <mxCell id="edge4" value="VM Hosting" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=1;strokeColor=#000000;fontSize=10;" edge="1" parent="1" source="node3" target="node4">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <!-- GitHub Actions to Slack Notifications -->
+    <mxCell id="edge5" value="Deployment Alerts" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=1;strokeColor=#000000;fontSize=10;" edge="1" parent="1" source="node1" target="node5">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+  </root>
+</mxGraphModel>
